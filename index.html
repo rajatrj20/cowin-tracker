@@ -148,7 +148,8 @@
 			<div id="district-collapse-`+district.id+`" class="collapse" aria-labelledby="district-`+district.id+`" data-parent="#state-`+state.id+`-districts">
 			<div class="card-body">
 			<div class="table-responsive">
-			<table class="table table-hover table-striped">
+			<div class="text-center text-danger w-100 not-available">Sorry, No centers are available for Vaccination. Please try again later.</div>
+			<table class="table table-hover table-striped d-none">
 			<thead class="thead-dark">
 			<tr>
 			<th scope="col">Name</th>
@@ -160,7 +161,6 @@
 			</tr>
 			</thead>
 			<tbody id="district-`+district.id+`-centers">
-			<tr class="text-center" id="not-available"><td class="text-danger" colspan="6">Sorry, No centers are available for Vaccination. Try again later.</td></tr>
 			</tbody>
 			</table>
 			</div>
@@ -174,7 +174,8 @@
 		function addCenter(district, center){
 			let htmlContent = '';
 			if(center.sessions.length > 0){
-				$('#district-'+center.districtId+'-centers #not-available').hide();
+				$('#district-'+center.districtId+'-centers').parents('.table-responsive').find('.not-available').hide();
+				$('#district-'+center.districtId+'-centers').parents('.table').removeClass('d-none');
 			}
 			center.sessions.forEach( sessionId => {
 				session = sessions[sessionId];
@@ -207,6 +208,10 @@
 			}
 		}
 
+		function subscribeToNotification(){
+
+		}
+
 		function only18(){
 			let affectedDistricts = new Set()
 			if($('#only-18').is(':checked')){
@@ -237,6 +242,26 @@
 		}
 
 		$( document ).ready(function() {
+			// if (!window.Notification) {
+			// 	console.log('Browser does not support notifications.');
+			// } else {
+			// 	if (Notification.permission === 'granted') {
+			// 	} else {
+			// 		Notification.requestPermission().then(function(p) {
+			// 			console.log(p);
+			// 			if(p == 'granted') {
+			// 				const notification = new Notification("New message incoming", {
+			// 					body: "Hi there. How are you doing?",
+			// 					icon: "yourimageurl.png"
+			// 				})
+			// 			} else {
+			// 				console.log('User blocked notifications.');
+			// 			}
+			// 		}).catch(function(err) {
+			// 			console.error(err);
+			// 		});
+			// 	}
+			// }
 			if(strictly18){
 				$("#strictly18").hide();
 			}
